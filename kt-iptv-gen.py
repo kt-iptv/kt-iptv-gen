@@ -47,7 +47,7 @@ def build_triggers_text(get_triggers_fn, triggers_text, prefix):
     triggers = get_triggers_fn()
     triggers_text.clear()
     for trigger in triggers:
-        if trigger.text:
+        if trigger.text and not trigger.get_attribute('title'):
             text = trigger.text.replace('\n', ' ')
             triggers_text.append(text)
     log.debug(f'{prefix}: {triggers_text}')
@@ -71,7 +71,7 @@ def build_sub_triggers_text():
     build_triggers_text(get_sub_triggers, sub_triggers_text, "SUB")
 
 def select_sub_trigger(text):
-    select_trigger(get_tab_triggers, text, 'onclick')
+    select_trigger(get_sub_triggers, text, 'onclick')
 
 def build_chn_triggers_text():
     build_triggers_text(get_chn_triggers, chn_triggers_text, "CHT")
