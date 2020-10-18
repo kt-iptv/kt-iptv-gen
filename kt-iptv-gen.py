@@ -21,7 +21,7 @@ chn_triggers_text = [] # 상품 소분류 텍스트
 channels_text = []     # 채널 텍스트
 
 chrome_options = Options()
-chrome_options.add_argument('headless')
+#chrome_options.add_argument('headless')
 chrome_options.add_argument("disable-gpu")
 chrome_options.add_argument("--window-size=800,800")
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
@@ -146,6 +146,18 @@ def select_tab_sub_chn(atab, asub, achn):
 
 select_tab_sub_chn(2, 2, 2)
 build_channels_text()
+
+udp_iptv = 'udp://@239.255.42.42:5004'
+
+m3u_filename = './kt-iptv.m3u8'
+m3u = open(m3u_filename, 'w', encoding="utf-8")
+m3u.write('#EXTM3U\n\n')
+for channel in channels_text:
+    list = channel.split(' ')
+    m3u.write(f'#EXTINF: tvg-id="{list[0]}", {list[1]}\n')
+    m3u.write(f'{udp_iptv}?channel={list[0]}\n\n')
+m3u.close()
+
 print(channels_text[100])
 select_channel(channels_text[100])
 
